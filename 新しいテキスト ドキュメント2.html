@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ランダムな質問と回答</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #qa-container {
+      cursor: pointer;
+      padding: 10px;
+      border: none;
+      margin: 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    #question,
+    #answer {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="qa-container">
+    <h2 id="question">質問</h2>&nbsp;&nbsp;
+    <h2 id="answer" style="display: none;">回答</h2>
+  </div>
+
+  <script>
+    var qaList = [
+      {
+        "q": "1 + 1 =  ",
+        "a": "1 + 1 = 2"
+      },
+      {
+        "q": "1 + 2 =  ",
+        "a": "1 + 2 = 3"
+      },
+      {
+        "q": "1 + 3 =  ",
+        "a": "1 + 3 = 4"
+      }
+    ];
+
+    qaList.forEach(function(item) {
+      item.randomNumber = Math.random();
+    });
+
+    qaList.sort(function(a, b) {
+      return a.randomNumber - b.randomNumber;
+    });
+
+    var currentIndex = 0;
+    var qaContainer = document.getElementById('qa-container');
+    var questionElement = document.getElementById('question');
+    var answerElement = document.getElementById('answer');
+
+    function showNextQA() {
+      if (currentIndex < qaList.length) {
+        if (answerElement.style.display === 'none') {
+          // 質問を非表示にして回答を表示
+          questionElement.style.display = 'none';
+          answerElement.style.display = 'inline-block';
+          answerElement.textContent = qaList[currentIndex].a;
+        } else {
+          // 質問を表示して次の質問へ
+          questionElement.style.display = 'inline-block';
+          answerElement.style.display = 'none';
+          questionElement.textContent = qaList[currentIndex].q;
+          currentIndex++;
+        }
+      } else {
+        qaContainer.removeEventListener('click', showNextQA);
+        qaContainer.textContent = '質問と回答は終了しました。';
+      }
+    }
+
+    qaContainer.addEventListener('click', showNextQA);
+
+    // 最初の質問を表示
+    showNextQA();
+  </script>
+</body>
+</html>
