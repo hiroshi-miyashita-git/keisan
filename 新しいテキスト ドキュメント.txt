@@ -1,0 +1,5 @@
+■足し算：addition
+■引き算：subtraction
+■掛け算：multiplication
+■割り算：division
+
